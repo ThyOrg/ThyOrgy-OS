@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "kernel.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -116,11 +117,14 @@ void terminal_writestring(const char* data)
 void kernel_main(void) 
 {
 	terminal_initialize();
-	
+
 	init_gdt();
 	/* Initialize terminal interface */
 
 	/* Newline support is left as an exercise. */
-	terminal_writestring("42\n");
-	terminal_writestring("Hello World\n");
+	printk(GDTBASE);
+	// uint32_t *kstack = (uint32_t *)(&gdt[3].base_low);
+	// for (int i = 0; i < 10; i++)
+	// {
+	// };
 }

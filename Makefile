@@ -12,11 +12,11 @@ BIN_FOLDER = bin
 
 # Source files
 ASM_SRC = $(SRC_FOLDER)/boot.s $(SRC_FOLDER)/gdt.s
-C_SRC = $(SRC_FOLDER)/kernel.c $(SRC_FOLDER)/segmentation.c
+C_SRC = $(SRC_FOLDER)/kernel.c $(SRC_FOLDER)/segmentation.c $(SRC_FOLDER)/printk.c
 
 # Object files
 ASM_OBJ = $(OBJ_FOLDER)/boot.o $(OBJ_FOLDER)/gdt.o
-C_OBJ = $(OBJ_FOLDER)/kernel.o $(OBJ_FOLDER)/segmentation.o
+C_OBJ = $(OBJ_FOLDER)/kernel.o $(OBJ_FOLDER)/segmentation.o $(SRC_FOLDER)/printk.o
 
 # Output binary
 OS = $(BIN_FOLDER)/kfs-1.bin

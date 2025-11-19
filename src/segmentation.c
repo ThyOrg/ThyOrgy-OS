@@ -1,7 +1,6 @@
 #include "kernel.h"
 
 gdt_t *gdt_ptr = (gdt_t *)GDTBASE;
-gdt_desc_t gdt[7];
 
 
 void init_gdt_desc(uint32_t index, uint32_t base, uint32_t limit, uint8_t access, uint8_t other)
