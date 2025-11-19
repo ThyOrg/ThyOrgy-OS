@@ -1,7 +1,7 @@
 CC = i686-elf-gcc
 ASEMBLER = i686-elf-as
 LD = ld
-FLAGS = -Wall -Wextra -Werror -fno-builtin -fno-exceptions -fno-stack-protector -nostdlib -nodefaultlibs -std=gnu99 -ffreestanding -O2
+FLAGS = -Wall -Wextra  -fno-builtin -fno-exceptions -fno-stack-protector -nostdlib -nodefaultlibs -std=gnu99 -ffreestanding -O2
 LDFLAGS = -lgcc
 QEMU = qemu-system-i386 
 
@@ -16,7 +16,7 @@ C_SRC = $(SRC_FOLDER)/kernel.c $(SRC_FOLDER)/segmentation.c $(SRC_FOLDER)/printk
 
 # Object files
 ASM_OBJ = $(OBJ_FOLDER)/boot.o $(OBJ_FOLDER)/gdt.o
-C_OBJ = $(OBJ_FOLDER)/kernel.o $(OBJ_FOLDER)/segmentation.o $(SRC_FOLDER)/printk.o
+C_OBJ = $(OBJ_FOLDER)/kernel.o $(OBJ_FOLDER)/segmentation.o $(OBJ_FOLDER)/printk.o
 
 # Output binary
 OS = $(BIN_FOLDER)/kfs-1.bin

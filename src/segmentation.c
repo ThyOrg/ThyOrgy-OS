@@ -1,6 +1,7 @@
 #include "kernel.h"
 
 gdt_t *gdt_ptr = (gdt_t *)GDTBASE;
+gdt_desc_t gdt[7];
 
 
 void init_gdt_desc(uint32_t index, uint32_t base, uint32_t limit, uint8_t access, uint8_t other)
@@ -22,14 +23,14 @@ void init_gdt()
     init_gdt_desc(0, 0, 0, 0, 0);
 
     // kernel segments
-    init_gdt_desc(1, 0x0, 0xFFFFF, 0x9A, 0xC); // code segment
-    init_gdt_desc(2, 0x0, 0xFFFFF, 0x92, 0xC); // data segment
-    init_gdt_desc(3, 0x0, 0xFFFFF, 0x96, 0xC); // stack segment
+    init_gdt_desc(1, 0x0, 0xFFFFF, DESC_CODE, 0xC); // code segment
+    init_gdt_desc(2, 0x0, 0xFFFFF, DESC_DATA, 0xC); // data segment
+    init_gdt_desc(3, 0x0, 0xFFFFF, DESC_STACK, 0xC); // stack segment
 
     // User segments
-    init_gdt_desc(4, 0x0, 0xFFFFF, 0xFA, 0xC); //code segment
-    init_gdt_desc(5, 0x0, 0xFFFFF, 0xF2, 0xC); // data segment
-    init_gdt_desc(6, 0x0, 0xFFFFF, 0xF6, 0xC); // stack segment
+    init_gdt_desc(4, 0x0, 0xFFFFF, DESC_UCODE, 0xC); //code segment
+    init_gdt_desc(5, 0x0, 0xFFFFF, DESC_UDATA, 0xC); // data segment
+    init_gdt_desc(6, 0x0, 0xFFFFF, DESC_USTACK, 0xC); // stack segment
     
     gdt_flush((uint32_t)gdt_ptr);
 }

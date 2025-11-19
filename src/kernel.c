@@ -109,9 +109,15 @@ void terminal_write(const char* data, size_t size)
 		terminal_putchar(data[i]);
 }
 
-void terminal_writestring(const char* data) 
+void terminal_writestring(const char* data)
 {
 	terminal_write(data, strlen(data));
+}
+void dump_stack(uint32_t *esp) {
+	printk("Stack Dump:\n");
+	for (int i = 0; i < 32; i++) {
+		printk("  [%p] = %x\n", &esp[i], esp[i]);
+	}
 }
 
 void kernel_main(void) 
@@ -121,10 +127,7 @@ void kernel_main(void)
 	init_gdt();
 	/* Initialize terminal interface */
 
-	/* Newline support is left as an exercise. */
-	printk(GDTBASE);
-	// uint32_t *kstack = (uint32_t *)(&gdt[3].base_low);
-	// for (int i = 0; i < 10; i++)
-	// {
-	// };
+	// uint32_t *esp;
+	// __asm__ volatile("mov %%esp, %0" : "=r"(esp));
+	// dump_stack(esp);
 }

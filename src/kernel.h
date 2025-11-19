@@ -2,8 +2,10 @@
 #define KERNEL_H
 
 #include <stdint.h>
+#include <stdarg.h>
 
 #define GDTBASE 0x00000800
+
 
 #define HEXA_BASE "0123456789ABCDEF"
 
@@ -35,15 +37,14 @@ struct gdtdesc {
 typedef struct gdtdesc gdt_desc_t;
 typedef struct gdtr gdt_t;
 
-gdt_desc_t gdt[7];
 
 void init_gdt_desc(uint32_t index, uint32_t base, uint32_t limit, uint8_t access, uint8_t other);
 
 void init_gdt();
 
-
 // Printing
 void terminal_putchar(char c);
-void printk(uint32_t c);
+void terminal_writestring(const char* data);
+void printk(const char *fmt, ...);
 
 #endif
