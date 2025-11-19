@@ -12,6 +12,9 @@
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
+#include "kernel.h"
+
+
 /* Hardware text mode color constants. */
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
@@ -87,6 +90,11 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 void terminal_putchar(char c) 
 {
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+	if (c == '\n')
+	{
+		terminal_column = 0;
+		++terminal_row;
+	}
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
 		if (++terminal_row == VGA_HEIGHT)
@@ -107,9 +115,12 @@ void terminal_writestring(const char* data)
 
 void kernel_main(void) 
 {
-	/* Initialize terminal interface */
 	terminal_initialize();
+	
+	init_gdt();
+	/* Initialize terminal interface */
 
 	/* Newline support is left as an exercise. */
 	terminal_writestring("42\n");
+	terminal_writestring("Hello World\n");
 }

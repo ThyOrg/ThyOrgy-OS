@@ -11,12 +11,12 @@ OBJ_FOLDER = obj
 BIN_FOLDER = bin
 
 # Source files
-ASM_SRC = $(SRC_FOLDER)/boot.s
-C_SRC = $(SRC_FOLDER)/kernel.c
+ASM_SRC = $(SRC_FOLDER)/boot.s $(SRC_FOLDER)/gdt.s
+C_SRC = $(SRC_FOLDER)/kernel.c $(SRC_FOLDER)/segmentation.c
 
 # Object files
-ASM_OBJ = $(OBJ_FOLDER)/boot.o
-C_OBJ = $(OBJ_FOLDER)/kernel.o
+ASM_OBJ = $(OBJ_FOLDER)/boot.o $(OBJ_FOLDER)/gdt.o
+C_OBJ = $(OBJ_FOLDER)/kernel.o $(OBJ_FOLDER)/segmentation.o
 
 # Output binary
 OS = $(BIN_FOLDER)/kfs-1.bin
@@ -45,11 +45,11 @@ $(OS): $(C_OBJ) $(ASM_OBJ)
 	$(CC) $(FLAGS) -T $(LINKER) -o $@ $^ $(LDFLAGS)
 
 # Compile C source files into object files
-$(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.c
+$(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.c $(SRC_FOLDER)/kernel.h
 	$(CC) $(FLAGS) -c $< -o $@
 
 # Assemble the ASM source into object file
-$(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.s
+$(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.s $(SRC_FOLDER)/kernel.h
 	$(ASEMBLER) -o $@ $<
 
 # Clean object files
@@ -58,7 +58,7 @@ clean:
 
 # Clean all (object files and the final binary)
 fclean: clean
-	rm -f $(OS)
+	rm -f $(OS) 
 
 # Rebuild everything
 re: fclean all
