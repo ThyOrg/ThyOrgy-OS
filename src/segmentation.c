@@ -31,6 +31,5 @@ void init_gdt()
     init_gdt_desc(4, 0x0, 0xFFFFF, DESC_UCODE, 0xC); //code segment
     init_gdt_desc(5, 0x0, 0xFFFFF, DESC_UDATA, 0xC); // data segment
     init_gdt_desc(6, 0x0, 0xFFFFF, DESC_USTACK, 0xC); // stack segment
-    
     gdt_flush((uint32_t)gdt_ptr);
 }

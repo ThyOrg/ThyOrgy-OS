@@ -113,11 +113,14 @@ void terminal_writestring(const char* data)
 {
 	terminal_write(data, strlen(data));
 }
-void dump_stack(uint32_t *esp) {
-	printk("Stack Dump:\n");
-	for (int i = 0; i < 32; i++) {
-		printk("  [%p] = %x\n", &esp[i], esp[i]);
-	}
+
+void push_elems_to_stack(void)
+{
+	__asm__ ("push $0xFFFF");
+	__asm__ ("push $0xFFFF");
+	__asm__ ("push $0xFFFF");
+	__asm__ ("push $0xFFFF");
+	__asm__ ("push $0xFFFF");
 }
 
 void kernel_main(void) 
@@ -125,9 +128,6 @@ void kernel_main(void)
 	terminal_initialize();
 
 	init_gdt();
-	/* Initialize terminal interface */
-
-	// uint32_t *esp;
-	// __asm__ volatile("mov %%esp, %0" : "=r"(esp));
-	// dump_stack(esp);
+	push_elems_to_stack();
+	printk("%x %x %x %x %x %x %x %x %x %x");
 }
