@@ -56,10 +56,12 @@ $(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.s $(SRC_FOLDER)/kernel.h
 clean:
 	rm -f $(OBJ_FOLDER)/*.o
 
-# Clean all (object files and the final binary)
-fclean: clean
-	rm -f $(OS) 
+clean_bin:
+	rm -f $(BIN_FOLDER)/*.bin
 
+# Clean all (object files and the final binary)
+fclean: clean clean_bin
+	rm -f $(OS) 
 # Rebuild everything
 re: fclean all
 
