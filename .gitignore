@@ -61,3 +61,5 @@ obj/
 isodir/*.bin
 
 isodir/*.iso
+obj
+bin
