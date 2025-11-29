@@ -114,20 +114,11 @@ void terminal_writestring(const char* data)
 	terminal_write(data, strlen(data));
 }
 
-void push_elems_to_stack(void)
-{
-	__asm__ ("push $0xFFFF");
-	__asm__ ("push $0xFFFF");
-	__asm__ ("push $0xFFFF");
-	__asm__ ("push $0xFFFF");
-	__asm__ ("push $0xFFFF");
-}
+
 
 void kernel_main(void) 
 {
 	terminal_initialize();
-
-	init_gdt();
-	push_elems_to_stack();
-	printk("%x %x %x %x %x %x %x %x %x %x");
+	printk("Hello, kernel World!\n");
+	printk("Welcome to the 42 kernel.\n");
 }
