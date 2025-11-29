@@ -114,6 +114,46 @@ void terminal_writestring(const char* data)
 	terminal_write(data, strlen(data));
 }
 
+void hexdump(const void *addr, size_t len)
+{
+    const unsigned char *p = (const unsigned char *)addr;
+    size_t i;
+
+    for (i = 0; i < len; i += 16) {
+        printk("%x ", (unsigned long)(uintptr_t)(p + i));
+
+        // Hex part
+        for (size_t j = 0; j < 16; j++) {
+            if (i + j < len)
+                printk("%x ", p[i + j]);
+            else
+                printk(" ");
+        }
+
+        printk(" |");
+
+        // ASCII part
+        for (size_t j = 0; j < 16 && i + j < len; j++) {
+            unsigned char c = p[i + j];
+            printk("%c", (c >= 32 && c <= 126) ? c : '.');
+        }
+
+        printk("|\n");
+    }
+}
+
+
+void dump_stack(void)
+{
+    unsigned long sp;
+
+    // Get stack pointer (GCC/Clang)
+    __asm__("mov %%esp, %0" : "=r"(sp));
+
+    // Dump 256 bytes of stack
+    hexdump((void*)sp, 256);
+}
+
 
 
 void kernel_main(void) 
@@ -121,4 +161,6 @@ void kernel_main(void)
 	terminal_initialize();
 	printk("Hello, kernel World!\n");
 	printk("Welcome to the 42 kernel.\n");
+	printk("Kernel Stack\n");
+	dump_stack();
 }

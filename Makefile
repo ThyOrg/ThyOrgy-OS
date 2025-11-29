@@ -3,7 +3,7 @@ ASEMBLER = i686-elf-as
 LD = ld
 FLAGS = -Wall -Wextra -fno-builtin -fno-exceptions -fno-stack-protector -nostdlib -nodefaultlibs -std=gnu99 -ffreestanding -O2
 LDFLAGS = -lgcc
-QEMU = qemu-system-i386 
+QEMU = qemu-system-i386
 
 # Directories
 SRC_FOLDER = src
