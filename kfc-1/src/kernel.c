@@ -1,7 +1,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "kernel.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -12,9 +11,6 @@
 #if !defined(__i386__)
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
-
-#include "kernel.h"
-
 
 /* Hardware text mode color constants. */
 enum vga_color {
@@ -67,7 +63,7 @@ void terminal_initialize(void)
 {
 	terminal_row = 0;
 	terminal_column = 0;
-	terminal_color = vga_entry_color(VGA_COLOR_GREEN, VGA_COLOR_BLACK);
+	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
 	
 	for (size_t y = 0; y < VGA_HEIGHT; y++) {
 		for (size_t x = 0; x < VGA_WIDTH; x++) {
@@ -91,11 +87,6 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 void terminal_putchar(char c) 
 {
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-	if (c == '\n')
-	{
-		terminal_column = 0;
-		++terminal_row;
-	}
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
 		if (++terminal_row == VGA_HEIGHT)
@@ -109,25 +100,16 @@ void terminal_write(const char* data, size_t size)
 		terminal_putchar(data[i]);
 }
 
-void terminal_writestring(const char* data)
+void terminal_writestring(const char* data) 
 {
 	terminal_write(data, strlen(data));
 }
 
-void push_elems_to_stack(void)
-{
-	__asm__ ("push $0xFFFF");
-	__asm__ ("push $0xFFFF");
-	__asm__ ("push $0xFFFF");
-	__asm__ ("push $0xFFFF");
-	__asm__ ("push $0xFFFF");
-}
-
 void kernel_main(void) 
 {
+	/* Initialize terminal interface */
 	terminal_initialize();
 
-	init_gdt();
-	push_elems_to_stack();
-	printk("%x %x %x %x %x %x %x %x %x %x");
+	/* Newline support is left as an exercise. */
+	terminal_writestring("Hello mfs this 42, this kernel is mine!\n");
 }
